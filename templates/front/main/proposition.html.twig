@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Osolidaires{% endblock %}
+
+{% block body %}
+    <div class="row header">
+				<div id="request-head" class="box col-6 "><a href="{{ path('front_requests') }}">
+					<img src="{{ asset('Beneficiaire-small.png') }}" class="img-fluid" width="50%">
+					<img src="{{ asset('Beneficiaire-text.png') }}" class="img-fluid" width="50%"></a></div>
+				
+				<div id="proposition-selected" class="box col-6 "><a href="">
+					<img src="{{ asset('Benevole-small.png') }}" class="img-fluid" width="50%">
+					<img src="{{ asset('Benevole-text.png') }}" class="img-fluid" width="50%">	</a></div>
+			
+	</div>
+    <div class="row">
+				<div id="proposition" class="box col-12 ">
+					 {% for proposition in propositions %}   
+						<div class="proposition-post">
+							<div class="post-header">
+								<div class="post-picture"><img src="{{ asset('bonhomme2.png')}}" width = "70px"></div>
+								<div class="post-title-proposition">{{ proposition.title }}</div>
+								<div class="post-category">{{ proposition.category }}</div>
+							</div>
+							
+							<div class="post-footer">
+								<div class="post-person"><p>{{ proposition.user.lastname }} {{ proposition.user.firstname }}</p></div>
+								<div class="post-department">{{ proposition.user.department }}</div>
+								<div class="post-date">{{ proposition.disponibilityDate|date('m/d/Y')}}</div>
+							</div>
+
+						</div>
+
+					 {% endfor %}
+                </div>
+				
+	</div>
+
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Osolidaires{% endblock %}
+
+{% block body %}
+    <div class="row header">
+				<div id="request-selected" class="box col-6 "><a href="{{ path('front_requests') }}">
+					<img src="{{ asset('Beneficiaire-small.png') }}" class="img-fluid" width="50%">
+					<img src="{{ asset('Beneficiaire-text.png') }}" class="img-fluid" width="50%"></a></div>
+				
+				<div id="proposition-head" class="box col-6 "><a href="{{ path('front_propositions') }}">
+					<img src="{{ asset('Benevole-small.png') }}" class="img-fluid" width="50%">
+					<img src="{{ asset('Benevole-text.png') }}" class="img-fluid" width="50%">	</a></div>
+			
+	</div>
+    <div class="row">
+				<div id="request" class="box col-12 ">
+					 {% for request in requests %}   
+						<div class="request-post">
+							<div class="post-header">
+								<div class="post-picture"><img src="{{ asset('bonhomme1.png')}}" width = "70px"></div>
+								<div class="post-title-request">{{ request.title }}</div>
+								<div class="post-category">{{ request.category }}</div>
+							</div>
+							
+							<div class="post-footer">
+								<div class="post-person"><p>{{ request.user.lastname }} {{ request.user.firstname }}</p></div>
+								<div class="post-department">{{ request.user.department }}</div>
+								<div class="post-date">{{ request.interventionDate|date('m/d/Y')}}</div>
+							</div>
+
+						</div>
+
+					 {% endfor %}
+                </div>
+				
+	</div>
+
+{% endblock %}

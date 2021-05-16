@@ -9,3 +9,98 @@
 .background3 {
   background-image: url('photo-1482881497185-d4a9ddbe4151.jpeg');
 }
+
+.header {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.box {
+  width: 100%;
+  /* height: 50px; */
+}
+
+#request-selected {
+  width: 100%;
+  border: 15px solid #EB9331;
+  background-color: #EB9331;
+  text-align: center;
+  color: white;
+}
+
+#proposition-selected {
+  width: 100%;
+  border: 15px solid #75B2C8;
+  background-color: #75B2C8;
+  text-align: center;
+  color: white;
+}
+
+
+.request-post {
+  border: 5px solid #75B2C8;
+  margin-bottom: 15px;
+  padding: 15px;
+
+}
+
+.proposition-post {
+  border: 5px solid #EB9331;
+  margin-bottom: 15px;
+  padding: 15px;
+
+}
+
+.post-header, .post-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.post-title-request {
+  font-size: 2em;
+  font-weight: bold;
+  /* color: #75B2C8; */
+  color:#EB9331;
+}
+
+.post-title-proposition {
+  font-size: 2em;
+  font-weight: bold;
+  /* color: #75B2C8; */
+  color:#75B2C8;
+}
+
+.post-category {
+  font-size: 1.5em;
+}
+
+#request {
+  border: 15px solid #EB9331;
+  padding:15px 15px 0 15px;
+}
+
+#proposition {
+  
+  border: 15px solid #75B2C8;
+  padding:15px 15px 0 15px;
+}
+
+#proposition-head {
+  
+  width: 100%;
+  border: 15px solid #75B2C8;
+  padding: 15px;
+  text-align: center;
+  color: white;
+}
+
+#request-head {
+  
+  width: 100%;
+  border: 15px solid #EB9331;
+  padding: 15px;
+  text-align: center;
+  color: white;
+}
+

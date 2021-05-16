@@ -8,11 +8,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class MainController extends AbstractController
 {
-    /**
-     * @Route("/", name="api_home")
-     */
-    public function home(): Response
-    {
-        return $this->json('home', 200);
-    }
+    // /**
+    //  * @Route("/", name="api_home")
+    //  */
+    // public function home(): Response
+    // {
+    //     return $this->json('home', 200);
+    // }
 }

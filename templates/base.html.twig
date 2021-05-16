@@ -10,41 +10,39 @@
     </head>
 
     <body>
-        <nav class="navbar navbar-expand-lg navbar-light mb-5"  style="background-color: #75B2C8;">
-            <a class="navbar-brand" href="{{ path('back_admin_browse') }}"><img src="{{ asset('logo2.svg') }}" class="img-fluid" width = "70px"></a>
+        <nav class="navbar navbar-expand-lg navbar-light mb-1"  style="background-color: #75B2C8;">
+            <a class="navbar-brand" href="{{ path('front_requests') }}"><img src="{{ asset('logo2.svg') }}" class="img-fluid" width = "70px"></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
-                <li class="nav-item {% block admin %}{% endblock %}">
-                    <a class="nav-link" href="{{ path('back_admin_browse') }}">Administrateurs</a>
-                </li>
-                <li class="nav-item {% block volunteer %}{% endblock %}">
-                    <a class="nav-link" href="{{ path('back_volunteer_browse') }}">Bénévoles</a>
-                </li>
-                <li class="nav-item {% block beneficiary %}{% endblock %}">
-                    <a class="nav-link" href="{{ path('back_beneficiary_browse') }}">Bénéficiaires</a>
-                </li>
-                <li class="nav-item {% block proposition %}{% endblock %}">
-                    <a class="nav-link" href="{{ path('back_proposition_browse') }}">Propositions</a>
-                </li>
-                <li class="nav-item {% block request %}{% endblock %}">
-                    <a class="nav-link" href="{{ path('back_request_browse') }}">Demandes</a>
-                </li>
-                <li class="nav-item {% block category %}{% endblock %}">
-                    <a class="nav-link" href="{{ path('back_category_browse') }}">Catégories</a>
-                </li>
-                <li class="nav-item {% block department %}{% endblock %}">
-                    <a class="nav-link" href="{{ path('back_department_browse') }}">Départements</a>
-                    <li class="nav-item">
-                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                        <a href="{{ path('app_logout') }}" class="btn btn-outline-danger my-2 my-sm-0">Déconnexion</a>
-                    {% else %}
-                        <a href="{{ path('app_login') }}" class="btn btn-outline-success my-2 my-sm-0">Connexion</a>
-                    {% endif %}           
+                    <li class="nav-item {% block admin %}{% endblock %}">
+                        <a class="nav-link" href="{{ path('front_requests') }}">Accueil</a>
                     </li>
-                </li>
+                    <li class="nav-item {% block volunteer %}{% endblock %}">
+                        <a class="nav-link" href="{{ path('back_admin_browse') }}">Administrateur</a>
+                    </li>
+                    <li class="nav-link">
+                        {% if is_granted('ROLE_ADMIN') %}
+                                <p>ADMIN {{ app.user.email }}</p>
+                        
+                        {% elseif is_granted('ROLE_BENEFICIARY') %}
+                                    <p>Bénéficiaires {{ app.user.email }}</p>
+                                    
+                        {% elseif is_granted('ROLE_VOLUNTEER') %}
+                                    <p>Bénévoles {{ app.user.email }}</p>
+                        {% else %}
+                                <p> Anonyme </p>
+                        {% endif %}
+                    </li>
+                    <li class="nav-item">
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                            <a href="{{ path('app_logout') }}" class="btn btn-outline-danger my-2 my-sm-0">Déconnexion</a>
+                        {% else %}
+                            <a href="{{ path('app_login') }}" class="btn btn-outline-success my-2 my-sm-0">Connexion</a>
+                        {% endif %}           
+                    </li>
                 </ul>
             </div>
         </nav>
@@ -53,6 +51,9 @@
         {# <div>
         <a class="container-theme" href="#"><img src="{{ asset('lightbulb.png')}}" width = "70px"></a>
         </div> #}
+
+
+        {% block subnav %}{% endblock %}
 
 
          <div class="container">
