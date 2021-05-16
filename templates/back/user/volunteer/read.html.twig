@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bénévoles{% endblock %}
+
+{% block volunteer %}active{% endblock %}
+
+{% block body %}
+
+   <h1>{{ volunteer.firstname }} {{ volunteer.lastname }}</h1>
+
+    <p>Email : {{ volunteer.email }}</p>
+    <p>Téléphone : {{ volunteer.phoneNumber }}</p>
+    {# <p>Image : <img src="{{ asset('uploads/pictures/' ~ volunteer.picture)}}" width = "70px"></p> #}
+    <p>Département : {{ volunteer.department }}</p>
+    <p>Biographie : {{ volunteer.bio }}</p>
+
+    <a class="btn btn-sm btn-success" href="{{ path('back_volunteer_browse') }}">retour</a>
+
+<hr>
+{# Beneficiary's Requests #}
+
+<table class="table table-striped">
+    {# En-têtes #}
+  <thead>
+    <tr>
+     <th scope="col">Id</th>
+     <th scope="col">Catégorie</th>
+      <th scope="col">Titre</th>
+      <th scope="col">Contenu</th>
+      <th scope="col">Disponibilité</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+
+  <h2>Liste des demandes</h2>
+
+    {# Bénévole #}
+    {% for proposition in volunteer.propositions %}
+    <tr>
+      <th scope="row">{{ proposition.id }}</th>
+      <td>{{ proposition.category }}</td>
+      <td><a href="{{ path('back_proposition_read', {id: proposition.id}) }}">{{ proposition.title }}</a></td>
+      <td>{{ proposition.content }}</td>
+      <td>{{ proposition.disponibilityDate|date('m/d/Y')}}</td>
+    </tr>
+    {% endfor %}
+
+  </tbody>
+</table>
+
+{% endblock %}
+

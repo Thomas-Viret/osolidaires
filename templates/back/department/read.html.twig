@@ -1,0 +1,98 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ department.name }}{% endblock %}
+
+{% block department %}active{% endblock %}
+
+{% block body %}
+
+<h1>{{ department.name }}</h1>
+
+
+
+<h2>Administrateurs</h2>
+<table class="table table-hover table-striped">
+  
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Nom</th>
+      <th scope="col">Prénom</th>
+      <th scope="col">Email</th>
+    </tr>
+  </thead>
+  <tbody>
+     
+    {% for admin in admins %}    
+    <tr>
+      <th scope="row">{{ admin.id }}</th>
+      <td><a href="{{ path('back_admin_read', {id: admin.id}) }}">{{ admin.lastname }}</a></td>
+      <td>{{ admin.firstname }}</td>
+      <td>{{ admin.email }}</td>
+    </tr>
+    {% endfor %}
+
+  </tbody>
+</table>
+
+
+
+
+<h2>Bénévoles</h2>
+
+<table class="table table-hover table-striped">
+  
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Nom</th>
+      <th scope="col">Prénom</th>
+      <th scope="col">Email</th>
+    </tr>
+  </thead>
+  <tbody>
+     
+    {% for volunteer in volunteers %}
+    <tr>
+      <th scope="row">{{ volunteer.id }}</th>
+      <td><a href="{{ path('back_volunteer_read', {id: volunteer.id}) }}">{{ volunteer.lastname }}</a></td>
+      <td>{{ volunteer.firstname }}</td>
+      <td>{{ volunteer.email }}</td>
+    </tr>
+    {% endfor %}
+
+  </tbody>
+</table>
+
+
+
+
+<h2>Bénéficiaires</h2>
+
+<table class="table table-hover table-striped">
+  
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Nom</th>
+      <th scope="col">Prénom</th>
+      <th scope="col">Email</th>
+    </tr>
+  </thead>
+  <tbody>
+     
+    {% for beneficiary in beneficiaries %}     
+    <tr>
+      <th scope="row">{{ beneficiary.id }}</th>
+      <td><a href="{{ path('back_beneficiary_read', {id: beneficiary.id}) }}">{{ beneficiary.lastname }}</a></td>
+      <td>{{ beneficiary.firstname }}</td>
+      <td>{{ beneficiary.email }}</td>
+    </tr>
+    {% endfor %}
+
+  </tbody>
+</table>
+
+<a class="btn btn-sm btn-success" href="{{ path('back_department_browse') }}">retour</a>
+
+{% endblock %}

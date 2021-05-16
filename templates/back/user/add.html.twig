@@ -1,0 +1,15 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    Ajouter un utilisateur
+{% endblock %}
+
+{% block admin %}active{% endblock %}
+
+{% block body %}
+
+<h1>Ajouter un utilisateur</h1>
+
+{{ include('back/user/_form.html.twig') }}
+
+{% endblock %}
