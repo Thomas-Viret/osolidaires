@@ -15,6 +15,10 @@
   flex-wrap: nowrap;
 }
 
+.img {
+ border: 5px solid #EB9331;
+}
+
 .box {
   width: 100%;
   /* height: 50px; */
@@ -76,13 +80,13 @@
 }
 
 #request {
-  border: 15px solid #EB9331;
+  border: 20px solid #EB9331;
   padding:15px 15px 0 15px;
 }
 
 #proposition {
   
-  border: 15px solid #75B2C8;
+  border: 20px solid #75B2C8;
   padding:15px 15px 0 15px;
 }
 
