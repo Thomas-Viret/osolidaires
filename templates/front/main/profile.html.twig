@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+
+
+{% block body %}
+
+   <h1>{{ user.firstname }} {{ user.lastname }}</h1>
+
+    <p>Email : {{ user.email }}</p>
+    <p>Téléphone : {{ user.phoneNumber }}</p>
+    {# <p>Image : <img src="{{ asset('uploads/pictures/' ~ beneficiary.picture)}}" width = "70px"></p> #}
+    <p>Département : {{ user.department }}</p>
+    <p>Biographie : {{ user.bio }}</p>
+
+    <a class="btn btn-sm btn-primary" href="{{ path('front_user_edit', {id: user.id}) }}">Modifier</a>
+
+    <hr>
+{# Beneficiary's Requests #}
+
+<table class="table table-striped">
+    {# En-têtes #}
+  <thead>
+    <tr>
+     <th scope="col">Id</th>
+     <th scope="col">Catégorie</th>
+      <th scope="col">Titre</th>
+      <th scope="col">Contenu</th>
+      
+         {% if user.roles[0] == "ROLE_BENEFICIARY" %}
+         <th scope="col">Intervention</th>
+         {% elseif user.roles[0] == "ROLE_VOLUNTEER" %}
+         <th scope="col">Disponibilité</th>
+        {% endif %}
+      
+    </tr>
+  </thead>
+  <tbody>
+
+    {% if user.roles[0] == "ROLE_BENEFICIARY" %}
+
+
+            <h2>Liste des demandes</h2>
+
+        {# Bénéficiaire #}
+        {% for request in user.requests %}
+        <tr>
+        <th scope="row">{{ request.id }}</th>
+        <td>{{ request.category }}</td>
+        <td>{{ request.title }}</td>
+        <td>{{ request.content }}</td>
+        <td>{{ request.interventionDate|date('m/d/Y')}}</td>
+        </tr>
+        {% endfor %}
+
+
+
+    {% elseif user.roles[0] == "ROLE_VOLUNTEER" %}
+
+
+       <h2>Liste des propositions</h2>
+
+    {# Bénévole #}
+    {% for proposition in user.propositions %}
+    <tr>
+      <th scope="row">{{ proposition.id }}</th>
+      <td>{{ proposition.category }}</td>
+      <td>{{ proposition.title }}</td>
+      <td>{{ proposition.content }}</td>
+      <td>{{ proposition.disponibilityDate|date('m/d/Y')}}</td>
+    </tr>
+    {% endfor %}
+
+
+    
+    {% endif %}
+
+  
+
+  </tbody>
+</table>
+
+
+
+{% endblock %}

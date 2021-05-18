@@ -15,7 +15,8 @@
 	</div>
     <div class="row">
 				<div id="proposition" class="box col-12 ">
-					 {% for proposition in propositions %}   
+					 {% for proposition in propositions %}
+					 <a href="{{ path('front_proposition_read', {id: proposition.id}) }}">   
 						<div class="proposition-post">
 							<div class="post-header">
 								<div class="post-picture"><img src="{{ asset('bonhomme2.png')}}" width = "70px"></div>
@@ -30,6 +31,7 @@
 							</div>
 
 						</div>
+					</a>
 
 					 {% endfor %}
                 </div>

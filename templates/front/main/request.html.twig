@@ -15,7 +15,8 @@
 	</div>
     <div class="row">
 				<div id="request" class="box col-12 ">
-					 {% for request in requests %}   
+					 {% for request in requests %}
+					 <a href="{{ path('front_request_read', {id: request.id}) }}">
 						<div class="request-post">
 							<div class="post-header">
 								<div class="post-picture"><img src="{{ asset('bonhomme1.png')}}" width = "70px"></div>
@@ -30,7 +31,7 @@
 							</div>
 
 						</div>
-
+					 </a>
 					 {% endfor %}
                 </div>
 				

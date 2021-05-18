@@ -40,6 +40,8 @@ class PropositionRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+   
+
     /**
      * Find all propositions ordered by date DESC 
      * 

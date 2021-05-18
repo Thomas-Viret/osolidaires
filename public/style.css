@@ -108,3 +108,7 @@
   color: white;
 }
 
+#request a, #proposition a {
+  text-decoration: none;
+  color: black;
+}

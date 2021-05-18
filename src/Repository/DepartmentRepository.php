@@ -19,6 +19,9 @@ class DepartmentRepository extends ServiceEntityRepository
         parent::__construct($registry, Department::class);
     }
 
+
+
+
     // /**
     //  * @return Department[] Returns an array of Department objects
     //  */

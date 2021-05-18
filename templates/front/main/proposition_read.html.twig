@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ proposition.title }}{% endblock %}
+
+
+{% block body %}
+<h1>{{ proposition.title }}</h1>
+
+<h3>Categorie :</h3>
+<p>{{ proposition.category }}</p>
+
+<hr>
+
+<h3>Contenu :</h3>
+<p>{{ proposition.content}}</p>
+
+<hr>
+
+<h3>Date de disponibilité :</h3>
+<p>{{ proposition.disponibilityDate|date('m/d/Y')}}</p>
+
+<hr>
+<h3>Bénévole</h3>
+<p>Nom : {{ proposition.user.lastname }}</p>
+<p>Prénom : {{ proposition.user.firstname }}</p>
+<a class="btn btn-sm btn-primary" href="{{ path('front_user_contact', {id: proposition.user.id}) }}">contacter</a>
+
+
+
+<a class="btn btn-sm btn-success" href="{{ path('front_propositions') }}">retour</a>
+
+{% endblock %}
