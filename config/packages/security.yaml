@@ -76,7 +76,8 @@ security:
         - { path: ^/api/users, methods: [PATCH], roles: [ROLE_BENEFICIARY, ROLE_VOLUNTEER] }
         - { path: ^/api/(volunteers|beneficiaries), methods: [GET], roles: [ROLE_BENEFICIARY, ROLE_VOLUNTEER]}
         - { path: ^/front/(contact|profile)/user, methods: [GET], roles: [ROLE_BENEFICIARY, ROLE_VOLUNTEER]}
-        - { path: ^/front/user/edit, methods: [GET,POST], roles: [ROLE_BENEFICIARY, ROLE_VOLUNTEER]}
+        - { path: ^/front/user/edit, methods: [GET,POST, PATCH, PUT], roles: [ROLE_BENEFICIARY, ROLE_VOLUNTEER]}
+        - { path: ^/front/(request|proposition)/(edit|add|delete), methods: [GET,POST,DELETE,PUT,PATCH], roles: [ROLE_BENEFICIARY, ROLE_VOLUNTEER]}
         # - { path: ^/users, methods: [POST,PATCH], roles: ROLE_BENEFICIARY }
         # - { path: ^/requests, methods: [POST, PATCH], roles: ROLE_BENEFICIARY }
         # - { path: ^/beneficiaries, methods: [GET], roles: ROLE_BENEFICIARY }

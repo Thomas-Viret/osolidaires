@@ -3,6 +3,9 @@
 {% block title %}Osolidaires{% endblock %}
 
 {% block body %}
+
+    {# Flash message #}
+{{ include('front/_flash_messages.html.twig') }}
     <div class="row header">
 				<div id="request-selected" class="box col-6 "><a href="{{ path('front_requests') }}">
 					<img class="img" src="{{ asset('Beneficiaire-small.png') }}" class="img-fluid" width="50%">

@@ -4,9 +4,11 @@ namespace App\Controller\Front;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Form\RequestType;
 use App\Entity\Department;
 use App\Entity\Proposition;
 use App\Form\UserLambdaType;
+use App\Form\PropositionType;
 use App\Repository\RequestRepository;
 use App\Entity\Request as RequestEntity;
 use App\Repository\DepartmentRepository;
@@ -87,9 +89,12 @@ class MainController extends AbstractController
      * 
      * @Route("/front/contact/user/{id<\d+>}", name="front_user_contact", methods={"GET"})
      */
-    public function userContact(User $user)
+    public function userContact(User $user=null)
     {
-        
+        // 404 ?
+        if ($user === null) {
+            throw $this->createNotFoundException('utilisateur non trouvé.');
+        }
         return $this->render('front/main/contact.html.twig', [
             'user' => $user,
         ]);
@@ -101,9 +106,12 @@ class MainController extends AbstractController
      * 
      * @Route("/front/profile/user/{id<\d+>}", name="front_user_profile", methods={"GET"})
      */
-    public function profile(User $user)
+    public function profile(User $user=null)
     {
-        
+        // 404 ?
+        if ($user === null) {
+            throw $this->createNotFoundException('utilisateur non trouvé.');
+        }
         return $this->render('front/main/profile.html.twig', [
             'user' => $user,
         ]);
@@ -115,10 +123,15 @@ class MainController extends AbstractController
      * 
      * @Route("/front/user/edit/{id<\d+>}", name="front_user_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, User $user, UserPasswordEncoderInterface $passwordEncoder)
+    public function editUser(Request $request, User $user=null, UserPasswordEncoderInterface $passwordEncoder)
     {
          // Le User courant a-t-il le droits de modifier cette question
          $this->denyAccessUnlessGranted('patchUser', $user);
+
+         // 404 ?
+        if ($user === null) {
+            throw $this->createNotFoundException('utilisateur non trouvé.');
+        }
         // Creates and returns a Form instance from the type of the form (UserType).
         $form = $this->createForm(UserLambdaType::class, $user);
 
@@ -163,7 +176,7 @@ class MainController extends AbstractController
      * @var UploadedFile $uploadedFile 
      * @Route("/front/user/add", name="front_user_add")
      */
-    public function add(Request $request, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $passwordEncoder, SluggerInterface $slugger)
+    public function addUser(Request $request, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $passwordEncoder, SluggerInterface $slugger)
     {
         // the entity to create
         $user = new User();
@@ -200,6 +213,226 @@ class MainController extends AbstractController
         return $this->render('front/main/user_add.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+     /**
+     * Create request
+     *
+     * @Route("/front/request/add", name="front_request_add", methods={"GET", "POST"})
+     */
+    public function addRequest(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        
+        $requestModel = new RequestEntity();
+
+        $form = $this->createForm(RequestType::class, $requestModel);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+
+            $entityManager->persist($requestModel);
+            $entityManager->flush();
+
+            // Flash
+            $this->addFlash('success', 'Demande créée avec succès !');
+
+            $user = $this->getUser();
+            if($user !== null){
+                $id = $user->getId();
+                return $this->redirectToRoute('front_user_profile', ['id' => $id]);
+            }
+            return $this->redirectToRoute('front_requests');
+        }
+
+        return $this->render('front/main/request_add.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * Edit one request
+     * 
+     * @Route("/front/request/edit/{id}", name="front_request_edit", methods={"GET","POST"})
+     */
+    public function editRequest(Request $request, RequestEntity $requestModel=null): Response
+    {
+
+        // Le User courant a-t-il le droits de modifier cette question
+        $this->denyAccessUnlessGranted('patchRequest', $requestModel);
+
+        // 404 ?
+        if ($requestModel === null) {
+            throw $this->createNotFoundException('demande non trouvée.');
+        }
+        $form = $this->createForm(RequestType::class, $requestModel);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $requestModel->setUpdatedAt(new \DateTime());
+
+            $this->getDoctrine()->getManager()->flush();
+
+            // Flash
+            $this->addFlash('warning', 'Demande modifiée !');
+            $user = $this->getUser();
+            if($user !== null){
+                $id = $user->getId();
+                return $this->redirectToRoute('front_user_profile', ['id' => $id]);
+            }
+            return $this->redirectToRoute('front_requests');
+        }
+
+        return $this->render('front/main/request_edit.html.twig', [
+            'request' => $requestModel,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * DELETE one request
+     * 
+     * @Route("/front/request/delete/{id<\d+>}", name="front_request_delete", methods={"DELETE"})
+     */
+    public function deleteRequest(RequestEntity $requestModel = null, Request $request, EntityManagerInterface $entityManager)
+    {
+
+        if ($requestModel === null) {
+            throw $this->createNotFoundException('Demande non trouvée.');
+        }
+
+        $submittedToken = $request->request->get('token');
+
+
+        if (!$this->isCsrfTokenValid('delete', $submittedToken)) {
+            throw $this->createAccessDeniedException('Accès refusé.');
+        }
+
+        $entityManager->remove($requestModel);
+        $entityManager->flush();
+
+        // Flash
+        $this->addFlash('danger', 'Demande supprimée !');
+
+        $user = $this->getUser();
+            if($user !== null){
+                $id = $user->getId();
+                return $this->redirectToRoute('front_user_profile', ['id' => $id]);
+            }
+        return $this->redirectToRoute('front_requests');
+    }
+
+     /**
+     * Create proposition
+     *
+     * @Route("/front/proposition/add", name="front_proposition_add", methods={"GET", "POST"})
+     */
+    public function addProposition(Request $request, EntityManagerInterface $entityManager): Response
+    {
+
+        $proposition = new Proposition();
+
+        $form = $this->createForm(PropositionType::class, $proposition);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+
+            $entityManager->persist($proposition);
+            $entityManager->flush();
+
+            // Flash
+            $this->addFlash('success', 'Proposition créée avec succès !');
+            $user = $this->getUser();
+            if($user !== null){
+                $id = $user->getId();
+                return $this->redirectToRoute('front_user_profile', ['id' => $id]);
+            }
+
+            return $this->redirectToRoute('front_propositions');
+        }
+
+        return $this->render('front/main/proposition_add.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * Edit one proposition
+     * 
+     * @Route("/front/proposition/edit/{id}", name="front_proposition_edit", methods={"GET","POST"})
+     */
+    public function editProposition(Request $request, Proposition $proposition=null): Response
+    {
+        // Le User courant a-t-il le droits de modifier cette question (gèré via le PropositionVoter)
+        $this->denyAccessUnlessGranted('patchProposition', $proposition);
+        // 404 ?
+        if ($proposition === null) {
+            throw $this->createNotFoundException('proposition non trouvée.');
+        }
+        $form = $this->createForm(PropositionType::class, $proposition);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $proposition->setUpdatedAt(new \DateTime());
+
+            $this->getDoctrine()->getManager()->flush();
+
+            // Flash
+            $this->addFlash('warning', 'Proposition modifiée !');
+            $user = $this->getUser();
+            if($user !== null){
+                $id = $user->getId();
+                return $this->redirectToRoute('front_user_profile', ['id' => $id]);
+            }
+
+            return $this->redirectToRoute('front_propositions');
+        }
+
+        return $this->render('front/main/proposition_edit.html.twig', [
+            'proposition' => $proposition,
+            'form' => $form->createView(),
+        ]);
+    }
+
+   /**
+     * DELETE one Proposition
+     * 
+     * @Route("/front/proposition/delete/{id<\d+>}", name="front_proposition_delete", methods={"DELETE"})
+     */
+    public function delete(Proposition $proposition = null, Request $request, EntityManagerInterface $entityManager)
+    {
+
+        if ($proposition === null) {
+            throw $this->createNotFoundException('Proposition non trouvée.');
+        }
+
+        $submittedToken = $request->request->get('token');
+
+
+        if (!$this->isCsrfTokenValid('delete', $submittedToken)) {
+            throw $this->createAccessDeniedException('Accès refusé.');
+        }
+
+        $entityManager->remove($proposition);
+        $entityManager->flush();
+
+        // Flash
+        $this->addFlash('danger', 'propostion supprimée !');
+
+        $user = $this->getUser();
+            if($user !== null){
+                $id = $user->getId();
+                return $this->redirectToRoute('front_user_profile', ['id' => $id]);
+            }
+
+        return $this->redirectToRoute('back_proposition_browse');
     }
 
 }

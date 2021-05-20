@@ -15,6 +15,9 @@
     <a class="btn btn-sm btn-primary" href="{{ path('front_user_edit', {id: user.id}) }}">Modifier</a>
 
     <hr>
+
+    {# Flash message #}
+{{ include('front/_flash_messages.html.twig') }}
 {# Beneficiary's Requests #}
 
 <table class="table table-striped">
@@ -25,12 +28,14 @@
      <th scope="col">Catégorie</th>
       <th scope="col">Titre</th>
       <th scope="col">Contenu</th>
+     
       
          {% if user.roles[0] == "ROLE_BENEFICIARY" %}
          <th scope="col">Intervention</th>
          {% elseif user.roles[0] == "ROLE_VOLUNTEER" %}
          <th scope="col">Disponibilité</th>
         {% endif %}
+         <th scope="col">Actions</th>
       
     </tr>
   </thead>
@@ -40,7 +45,7 @@
 
 
             <h2>Liste des demandes</h2>
-
+        <a class="btn btn-sm btn-success mb-4" href="{{ path('front_request_add') }}">Ajouter une demande</a>
         {# Bénéficiaire #}
         {% for request in user.requests %}
         <tr>
@@ -49,6 +54,13 @@
         <td>{{ request.title }}</td>
         <td>{{ request.content }}</td>
         <td>{{ request.interventionDate|date('m/d/Y')}}</td>
+         <td><form action="{{ path('front_request_delete', {id:request.id}) }}" onsubmit="return confirm('Voulez-vous supprimez : {{ request.title|e('js') }} ?')" method="POST">
+            <input type="hidden" name="_method" value="DELETE"/>
+            <input type="hidden" name="token" value="{{ csrf_token('delete') }}"/>
+            <a class="btn btn-sm btn-primary mb-2" href="{{ path('front_request_edit', {id: request.id}) }}">Modifier</a>
+            <button class="btn btn-sm btn-danger" type="submit" >Supprimer</button>
+          </form>
+      </td>
         </tr>
         {% endfor %}
 
@@ -58,7 +70,7 @@
 
 
        <h2>Liste des propositions</h2>
-
+    <a class="btn btn-sm btn-success mb-4" href="{{ path('front_proposition_add') }}">Ajouter une proposition</a>
     {# Bénévole #}
     {% for proposition in user.propositions %}
     <tr>
@@ -67,6 +79,13 @@
       <td>{{ proposition.title }}</td>
       <td>{{ proposition.content }}</td>
       <td>{{ proposition.disponibilityDate|date('m/d/Y')}}</td>
+      <td><form action="{{ path('front_proposition_delete', {id:proposition.id}) }}" onsubmit="return confirm('Voulez-vous supprimez : {{ proposition.title|e('js') }} ?')" method="POST">
+            <input type="hidden" name="_method" value="DELETE"/>
+            <input type="hidden" name="token" value="{{ csrf_token('delete') }}"/>
+            <a class="btn btn-sm btn-primary mb-2" href="{{ path('front_proposition_edit', {id: proposition.id}) }}">Modifier</a>
+            <button class="btn btn-sm btn-danger" type="submit" >Supprimer</button>
+          </form>
+      </td>
     </tr>
     {% endfor %}
 
