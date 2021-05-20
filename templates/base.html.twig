@@ -36,13 +36,7 @@
                                 <p> Anonyme </p>
                         {% endif %}
                     </li>
-                    {# <li class="nav-item">
-                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                            <a href="{{ path('front_user_profile', {id:app.user.id}) }}" class="btn btn-outline-primary my-2 my-sm-0">Profile</a>
-                        {% else %}
-                            <a href="{{ path('app_login') }}" class="btn btn-outline-primary my-2 my-sm-0">Profile</a>
-                        {% endif %}           
-                    </li> #}
+                    
                     <li class="nav-item">
                         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                             <a href="{{ path('app_logout') }}" class="btn btn-outline-danger my-2 my-sm-0">Déconnexion</a>
@@ -52,9 +46,14 @@
                     </li>
 
                     
-
                 </ul>
+
+
+                
             </div>
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <a href="{{ path('front_user_profile', {id:app.user.id}) }}" class="btn btn-outline-primary my-2 my-sm-0 mr-0">Profile</a>
+            {% endif %}
         </nav>
         
         {# Background theme en JS #}
