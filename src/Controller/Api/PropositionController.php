@@ -19,7 +19,7 @@ class PropositionController extends AbstractController
     /**
      * Get all Propositions
      * 
-     * @Route("/propositions", name="api_propositions_read", methods="GET")
+     * @Route("/api/propositions", name="api_propositions_read", methods="GET")
      */
     public function read(PropositionRepository $propositionRepository): Response
     {
@@ -31,7 +31,7 @@ class PropositionController extends AbstractController
     /**
      * Get one proposition
      * 
-     * @Route("/propositions/{id<\d+>}", name="api_propositions_read_item", methods="GET")
+     * @Route("/api/propositions/{id<\d+>}", name="api_propositions_read_item", methods="GET")
      */
     public function readItem(Proposition $proposition = null): Response
     {
@@ -57,7 +57,7 @@ class PropositionController extends AbstractController
     /**
      * Add proposition
      * 
-     * @Route("/propositions", name="api_propositions_create", methods="POST")
+     * @Route("/api/propositions", name="api_propositions_create", methods="POST")
      */
     public function createProposition(Request $request, EntityManagerInterface $entityManager,  SerializerInterface $serializer, ValidatorInterface $validator)
     {
@@ -103,7 +103,7 @@ class PropositionController extends AbstractController
     /**
      * Edit Proposition(PATCH)
      * 
-     * @Route("/propositions/{id<\d+>}", name="api_propositions_patch", methods={"PATCH"})
+     * @Route("/api/propositions/{id<\d+>}", name="api_propositions_patch", methods={"PATCH"})
      */
     public function patchProposition(Proposition $proposition = null, EntityManagerInterface $em, SerializerInterface $serializer, Request $request, ValidatorInterface $validator)
     {

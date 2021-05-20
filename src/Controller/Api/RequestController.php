@@ -18,7 +18,7 @@ class RequestController extends AbstractController
     /**
      * Get all requests
      * 
-     * @Route("/requests", name="api_requests_read", methods="GET")
+     * @Route("/api/requests", name="api_requests_read", methods="GET")
      */
     public function read(RequestRepository $requestRepository): Response
     {
@@ -30,7 +30,7 @@ class RequestController extends AbstractController
     /**
      * Get one request
      * 
-     * @Route("/requests/{id<\d+>}", name="api_requests_read_item", methods="GET")
+     * @Route("/api/requests/{id<\d+>}", name="api_requests_read_item", methods="GET")
      */
     public function readItem(RequestEntity $request = null): Response
     {
@@ -55,7 +55,7 @@ class RequestController extends AbstractController
     /**
      * Add request
      * 
-     * @Route("/requests", name="api_requests_create", methods="POST")
+     * @Route("/api/requests", name="api_requests_create", methods="POST")
      */
     public function createRequest(Request $request, EntityManagerInterface $entityManager, SerializerInterface $serializer, ValidatorInterface $validator)
     {
@@ -94,7 +94,7 @@ class RequestController extends AbstractController
     /**
      * Edit Request(PATCH)
      * 
-     * @Route("/requests/{id<\d+>}", name="api_requests_patch", methods={"PATCH"})
+     * @Route("/api/requests/{id<\d+>}", name="api_requests_patch", methods={"PATCH"})
      */
     public function patchRequest(RequestEntity $userRequest = null, EntityManagerInterface $em, SerializerInterface $serializer, ValidatorInterface $validator, Request $request)
     {

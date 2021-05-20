@@ -13,7 +13,7 @@ class DepartmentController extends AbstractController
     /**
      * Get all departments
      * 
-     * @Route("/departments", name="api_departments_read", methods="GET")
+     * @Route("/api/departments", name="api_departments_read", methods="GET")
      */
     public function read(DepartmentRepository $departmentRepository): Response
     {
@@ -25,7 +25,7 @@ class DepartmentController extends AbstractController
     /**
      * Get one department
      * 
-     * @Route("/departments/{id<\d+>}", name="api_departments_read_item", methods="GET")
+     * @Route("/api/departments/{id<\d+>}", name="api_departments_read_item", methods="GET")
      */
     public function readItem(Department $department = null): Response
     {

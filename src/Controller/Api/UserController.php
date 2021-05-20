@@ -26,7 +26,7 @@ class UserController extends AbstractController
     /**
      * Get all beneficiaries
      * 
-     * @Route("/beneficiaries", name="api_beneficiaries", methods="GET")
+     * @Route("/api/beneficiaries", name="api_beneficiaries", methods="GET")
      */
     public function readBeneficiaries(UserRepository $userRepository): Response
     {
@@ -47,7 +47,7 @@ class UserController extends AbstractController
      * 
      * Get one beneficiary
      * 
-     * @Route("/beneficiaries/{id<\d+>}", name="api_beneficiaries_read_item", methods="GET")
+     * @Route("/api/beneficiaries/{id<\d+>}", name="api_beneficiaries_read_item", methods="GET")
      */
     public function readBeneficiaryItem(UserRepository $userRepository, User $user = null): Response
     {
@@ -106,7 +106,7 @@ class UserController extends AbstractController
     /**
      * Get all volunteers
      * i
-     * @Route("/volunteers", name="api_volunteers", methods="GET")
+     * @Route("/api/volunteers", name="api_volunteers", methods="GET")
      */
     public function readVolunteers(UserRepository $userRepository): Response
     {
@@ -124,7 +124,7 @@ class UserController extends AbstractController
     /**
      * Get one volunteer
      * 
-     * @Route("/volunteers/{id<\d+>}", name="api_volunteers_read_item", methods="GET")
+     * @Route("/api/volunteers/{id<\d+>}", name="api_volunteers_read_item", methods="GET")
      */
     public function readVolunteersItem(UserRepository $userRepository, User $user = null): Response
     {
@@ -165,7 +165,7 @@ class UserController extends AbstractController
     /**
      * Add User
      * 
-     * @Route("/users", name="api_user_create", methods="POST")
+     * @Route("/api/users", name="api_user_create", methods="POST")
      */
     public function createUser(Request $request, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $passwordEncoder,  SerializerInterface $serializer, ValidatorInterface $validator)
     {
@@ -208,7 +208,7 @@ class UserController extends AbstractController
     /**
      * Edit User(PATCH)
      * 
-     * @Route("/users/{id<\d+>}", name="api_users_patch", methods={"PATCH"})
+     * @Route("/api/users/{id<\d+>}", name="api_users_patch", methods={"PATCH"})
      */
     public function patchUser(User $user = null, EntityManagerInterface $em, SerializerInterface $serializer, UserPasswordEncoderInterface $passwordEncoder, Request $request, ValidatorInterface $validator)
     {
@@ -248,7 +248,7 @@ class UserController extends AbstractController
      * 
      * Get user data
      * 
-     * @Route("/connected_user", name="api_user_connected", methods="GET")
+     * @Route("/api/connected_user", name="api_user_connected", methods="GET")
      */
     public function connectedUser()
     {

@@ -18,7 +18,7 @@ class CategoryController extends AbstractController
     /**
      * Get all categories
      * 
-     * @Route("/categories", name="api_categories_read", methods="GET")
+     * @Route("/api/categories", name="api_categories_read", methods="GET")
      */
     public function read(CategoryRepository $categoryRepository): Response
     {
@@ -30,7 +30,7 @@ class CategoryController extends AbstractController
     /**
      * Get one category
      * 
-     * @Route("/categories/{id<\d+>}", name="api_categories_read_item", methods="GET")
+     * @Route("/api/categories/{id<\d+>}", name="api_categories_read_item", methods="GET")
      */
     public function readItem(Category $category = null): Response
     {
@@ -54,7 +54,7 @@ class CategoryController extends AbstractController
     /**
      * Add category
      * 
-     * @Route("/categories", name="api_categories_create", methods="POST")
+     * @Route("/api/categories", name="api_categories_create", methods="POST")
      */
     public function createCategory(Request $request, EntityManagerInterface $entityManager,  SerializerInterface $serializer, ValidatorInterface $validator)
     {
@@ -84,7 +84,7 @@ class CategoryController extends AbstractController
     /**
      * Edit Category(PATCH)
      * 
-     * @Route("/categories/{id<\d+>}", name="api_categories_patch", methods={"PATCH"})
+     * @Route("/api/categories/{id<\d+>}", name="api_categories_patch", methods={"PATCH"})
      */
     public function patch(Category $category = null, EntityManagerInterface $em, SerializerInterface $serializer, Request $request, ValidatorInterface $validator)
     {

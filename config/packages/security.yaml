@@ -26,7 +26,8 @@ security:
 
             # All of our back office routes that MUST start with /back
         main:
-            pattern : ^/back
+            # pattern : ^/back
+            pattern : ^/
             anonymous: true
             lazy: true
             provider: app_user_provider
@@ -46,7 +47,8 @@ security:
             
             # All of our API routes, that must start with / (nb: it would have been better to call it /api...)
         api:
-            pattern:   ^/
+            # pattern:   ^/
+            pattern:   ^/api
             stateless: true
             #access ok for anonymous
             anonymous: true
@@ -60,7 +62,7 @@ security:
     access_control:
 
         # ADMIN
-        - { path: ^/categories, methods: [POST,PATCH], roles: ROLE_ADMIN } 
+        - { path: ^/api/categories, methods: [POST,PATCH], roles: ROLE_ADMIN } 
         # BACK OFFICE ("back/login" is the ONLY route that must be accessible to anyone, 
         # therefore all the other routes must be specified in the path: for ROLE_ADMIN )
         - { path: ^/back/(category|department|proposition|request|admin|beneficiary|volunteer|user), methods: [GET, POST, PUT, PATCH, DELETE], roles: ROLE_ADMIN }
@@ -69,10 +71,10 @@ security:
         
 
         # BENEFICIARY
-        - { path: ^/propositions, methods: [GET], roles: ROLE_BENEFICIARY }
-        - { path: ^/requests, methods: [POST, PATCH], roles: ROLE_BENEFICIARY }
-        - { path: ^/users, methods: [PATCH], roles: [ROLE_BENEFICIARY, ROLE_VOLUNTEER] }
-        - { path: ^/(volunteers|beneficiaries), methods: [GET], roles: [ROLE_BENEFICIARY, ROLE_VOLUNTEER]}
+        - { path: ^/api/propositions, methods: [GET], roles: ROLE_BENEFICIARY }
+        - { path: ^/api/requests, methods: [POST, PATCH], roles: ROLE_BENEFICIARY }
+        - { path: ^/api/users, methods: [PATCH], roles: [ROLE_BENEFICIARY, ROLE_VOLUNTEER] }
+        - { path: ^/api/(volunteers|beneficiaries), methods: [GET], roles: [ROLE_BENEFICIARY, ROLE_VOLUNTEER]}
         # - { path: ^/users, methods: [POST,PATCH], roles: ROLE_BENEFICIARY }
         # - { path: ^/requests, methods: [POST, PATCH], roles: ROLE_BENEFICIARY }
         # - { path: ^/beneficiaries, methods: [GET], roles: ROLE_BENEFICIARY }
@@ -80,8 +82,8 @@ security:
 
 
         # VOLUNTEER
-        - { path: ^/requests, methods: [GET], roles: ROLE_VOLUNTEER }
-        - { path: ^/propositions, methods: [POST, PATCH], roles: ROLE_VOLUNTEER }
+        - { path: ^/api/requests, methods: [GET], roles: ROLE_VOLUNTEER }
+        - { path: ^/api/propositions, methods: [POST, PATCH], roles: ROLE_VOLUNTEER }
         # - { path: ^/users, methods: [PATCH], roles: ROLE_VOLUNTEER }
         # - { path: ^/(volunteers|beneficiaries), methods: [GET], roles: ROLE_VOLUNTEER }
         # - { path: ^/users, methods: [POST, PATCH], roles: ROLE_VOLUNTEER }
