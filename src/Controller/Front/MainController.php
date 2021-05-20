@@ -6,13 +6,16 @@ use App\Entity\User;
 use App\Form\UserType;
 use App\Entity\Department;
 use App\Entity\Proposition;
+use App\Form\UserLambdaType;
 use App\Repository\RequestRepository;
 use App\Entity\Request as RequestEntity;
 use App\Repository\DepartmentRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\PropositionRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -114,8 +117,10 @@ class MainController extends AbstractController
      */
     public function edit(Request $request, User $user, UserPasswordEncoderInterface $passwordEncoder)
     {
+         // Le User courant a-t-il le droits de modifier cette question
+         $this->denyAccessUnlessGranted('patchUser', $user);
         // Creates and returns a Form instance from the type of the form (UserType).
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(UserLambdaType::class, $user);
 
         // The user's password will be overwritten by $request 
         $form->handleRequest($request);
@@ -149,6 +154,50 @@ class MainController extends AbstractController
 
         return $this->render('front/main/user_edit.html.twig', [
             'user' => $user,
+            'form' => $form->createView(),
+        ]);
+    }
+
+     /**
+     * Form to add a user
+     * @var UploadedFile $uploadedFile 
+     * @Route("/front/user/add", name="front_user_add")
+     */
+    public function add(Request $request, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $passwordEncoder, SluggerInterface $slugger)
+    {
+        // the entity to create
+        $user = new User();
+
+        // generates form
+        $form = $this->createForm(UserLambdaType::class, $user);
+
+        // we inspect the request and map the datas posted on the form
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            // We encode the User's password that's inside our variable $admin
+            $hashedPassword = $passwordEncoder->encodePassword($user, $user->getPassword());
+            // We reassing the encoded password in the User object via $admin
+            $user->setPassword($hashedPassword);
+
+           
+
+            // saves the new user
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            // Flash
+            $this->addFlash('success', 'Utilisateur créé avec succès !');
+
+            $role = $user->getRoles()[0];
+
+           
+            return $this->redirectToRoute('front_requests');
+       
+        }
+
+        return $this->render('front/main/user_add.html.twig', [
             'form' => $form->createView(),
         ]);
     }
